@@ -1,0 +1,47 @@
+#!/bin/bash
+
+if [[ "$1" == -c ]]
+then
+
+rm server
+rm client
+rm soq
+rm shm
+
+clear
+
+g++ main_server.cpp -o server
+g++ client.cpp -o client
+g++ server_on_queue.cpp -o soq
+g++ server_on_shared_memory.cpp -o shm
+
+if [ -e server ] && [ -e client ] && [ -e soq ] && [ -e shm ]
+then
+
+echo "Компиляция прошла успешно:"
+echo "Главный сервер: server"
+echo "Дополнительный сервер на очереди сообщений: soq"
+echo "Дополнительный сервер на разделяемой памяти: shm"
+echo "Клиент: client"
+
+else
+
+echo "Ошибка компиляции"
+
+fi
+
+fi
+
+if [ -e server ] && [ -e client ] && [ -e soq ] && [ -e shm ]
+then
+
+gnome-terminal --tab -- "./soq"
+gnome-terminal --tab -- "./shm"
+gnome-terminal --tab -- "./server"
+gnome-terminal --tab -- "./client"
+
+else
+
+echo "Ошибка. Запуск невозможен"
+
+fi
